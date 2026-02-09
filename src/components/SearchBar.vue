@@ -2,19 +2,20 @@
 <template>
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <button class="btn-toggle" @click="togglePainel">
-        Abrir
-    </button>
-
+    <div class="btn-open" v-show="!painelAberto">
+        <button class="btn-toggle" @click="togglePainel">
+            Guia de chamados
+        </button>
+    </div>
+   
     <div class="results" :class="{ aberto : painelAberto}">
 
-  <button class="btn-close" @click="togglePainel">
-    Fechar
-  </button>
-
-  <div class="sidebar-header">
-      <h1>Guia de chamados</h1>
-    </div>
+      <div class="sidebar-header">
+          <button class="btn-close" @click="togglePainel">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+            <h1>Guia de chamados</h1>
+        </div>
 
     <div class="filters">
       <select v-model="categoriaSelecionada">
@@ -103,17 +104,42 @@ const itensFiltrados = computed(() => {
 </script>
 
 <style scoped>
+.sidebar-header{
+  display: flex;
+  align-items: center;
+  justify-content: baseline;
+}
+
 .sidebar-header h1{
   font-size: 2em;
+  margin-left: 4em;
 }
 
 .btn-close{
-  margin-right: 14em;
+  color: var(--color-btn);
+  background-color: var(--background-color-btn);
 }
 
+.btn-open{
+  position: fixed;
+  top: 1em;
+  right: 1em;
+  z-index: 1000;
+}
 .btn-toggle{
-  color: red;
-  background-color: blue;
+  color: var(--color-btn);
+  background-color: var(--background-color-btn);
+}
+
+.filters {
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+.filters select {
+  padding: .6em;
+  font-size: 1em;
+  margin-bottom: 10px;
 }
 
 .search{
@@ -150,7 +176,7 @@ const itensFiltrados = computed(() => {
   padding: 1em;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: stretch;
   transform: translateX(100%);
   transition: transform 0.3s ease-in-out;
   box-shadow: -5px 0 15px rgba(0,0,0,0.2);
@@ -183,15 +209,6 @@ const itensFiltrados = computed(() => {
     border-radius: 10px;
 }
 
-.filters {
-  width: 80%;
-  margin-bottom: 1em;
-}
 
-.filters select {
-  width: 100%;
-  padding: .6em;
-  margin-bottom: 10px;
-}
 
 </style>

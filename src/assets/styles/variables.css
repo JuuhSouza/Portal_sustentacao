@@ -4,10 +4,13 @@
     --font-p: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 
     /* NAV BAR */
-    --nav-background-color: #262626;
+    --nav-background-color: white;
     --nav-color-border: #ccc;
-    --nav-color-a: #ffffff;
+    --nav-color-a: #182240;
     --nav-color-hover: #7D89A1;
-    --font-size: 1.2em;
+
+    /* Search Bar */
+    --background-color-btn: #3698D4;
+    --color-btn: white;
 
 }

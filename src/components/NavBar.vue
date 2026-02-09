@@ -19,19 +19,16 @@
 
 <style scoped>
 header{
-/*     z-index: 9999; */
     padding: 0.2rem 0;
     top: 0;
     left: 0;
     position: absolute;
     position: fixed;
     width: 100%;
-    border-bottom: 1px solid var(--nav-color-border);
 }
 
 nav{
-    /* background-color: red; */
-    max-width: 1400px;
+    background-color: var(--nav-background-color);
     margin: 0 auto;
     padding: 0 2rem;
     display: flex;
@@ -46,12 +43,11 @@ nav ul{
 
 nav ul a{
     text-decoration: none;
-    color: white;
+    color: var(--nav-color-a);
     padding: 0 1.5rem;
     transform: uppercase;
     font-weight: 480;
     font-size: 1.2em;
-    text-shadow: 1px 1px 2px rgb(27, 27, 27);
     transition: all .3s ease;
 }
 
