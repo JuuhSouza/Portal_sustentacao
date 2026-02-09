@@ -15,23 +15,29 @@
          <label for=""><i class="fa-solid fa-magnifying-glass"></i></label>
         <input 
             v-model="busca"
-            :placeholder="categoriaSelecionada === 'Todos' ? 'Pesquisar em categorias' : 'Pesquisar em ' + categoriaSelecionada"
+            :placeholder="categoriaSelecionada === 'Todos' ? 'Pesquisa geral' : 'Pesquisar em ' + categoriaSelecionada"
         />
         </div>
     </div>
 
     <div class="results">
-      <div v-for="item in itensFiltrados" :key="item.id" class="card">
-        <span class="badge"> {{ item.categoria }}</span>
-        <h3> {{ item.nome }}</h3>
-        <p>{{ item.descricao }}</p>
-      </div>
-      <div v-if="itensFiltrados.length === 0" class="no-results">
-        <i class="fa-solid fa-face-frown"></i>
-        <p>Nenhum item encontrado para sua busca.</p>
+      <div class="card"
+      v-for="item in itensFiltrados"
+      :key="item.id"
+      :class="{'card-ativo' : itemSelecionado?.id === item.id}"
+      @click="verDetalhes(item)">
+      <span class="badge"> {{ item.categoria }}</span>
+      <h3> {{ item.nome }}</h3>
+
+      <!-- DETALHES -->
+        <div class="info-extra"
+        v-if="itemSelecionado?.id === item.id">
+          <p>Mais detalhes</p>
+          <p>{{ item.descricao }}</p>
+        </div>
       </div>
     </div>
-  </div>
+    </div>
 </template>
 
 <script setup>
@@ -49,6 +55,14 @@ const itens = ref([
 
     { id: 8, nome: 'Cadeira Gamer', categoria: 'Móveis', descricao: "alguma coisa" },
 ])
+
+/*armazena o item */
+const itemSelecionado = ref(null);
+
+/* selecionar */
+const verDetalhes = (item) => {
+  itemSelecionado.value = itemSelecionado.value?.id === item.id ? null : item;
+}
 
 // Estados dos filtros
 const busca = ref('')
@@ -74,7 +88,7 @@ const itensFiltrados = computed(() => {
 .container{
     align-items: center;
     border: 1px red solid;
-    padding: 2em;
+    padding: 2em 22em;
 }
 
 .search{
@@ -123,6 +137,8 @@ const itensFiltrados = computed(() => {
     margin: 1em;
 
 }
+
+
 
 
 </style>
