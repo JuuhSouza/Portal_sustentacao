@@ -2,7 +2,20 @@
 <template>
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-  <div class="container">
+    <button class="btn-toggle" @click="togglePainel">
+        Abrir
+    </button>
+
+    <div class="results" :class="{ aberto : painelAberto}">
+
+  <button class="btn-close" @click="togglePainel">
+    Fechar
+  </button>
+
+  <div class="sidebar-header">
+      <h1>Guia de chamados</h1>
+    </div>
+
     <div class="filters">
       <select v-model="categoriaSelecionada">
         <option value="Todos">Todas as Categorias</option>
@@ -20,7 +33,6 @@
         </div>
     </div>
 
-    <div class="results">
       <div class="card"
       v-for="item in itensFiltrados"
       :key="item.id"
@@ -37,7 +49,7 @@
         </div>
       </div>
     </div>
-    </div>
+
 </template>
 
 <script setup>
@@ -55,6 +67,12 @@ const itens = ref([
 
     { id: 8, nome: 'Cadeira Gamer', categoria: 'Móveis', descricao: "alguma coisa" },
 ])
+
+/* menu-toggle */
+const painelAberto = ref(false)
+const togglePainel = () => {
+  painelAberto.value = !painelAberto.value
+}
 
 /*armazena o item */
 const itemSelecionado = ref(null);
@@ -85,10 +103,17 @@ const itensFiltrados = computed(() => {
 </script>
 
 <style scoped>
-.container{
-    align-items: center;
-    border: 1px red solid;
-    padding: 2em 22em;
+.sidebar-header h1{
+  font-size: 2em;
+}
+
+.btn-close{
+  margin-right: 14em;
+}
+
+.btn-toggle{
+  color: red;
+  background-color: blue;
 }
 
 .search{
@@ -96,7 +121,7 @@ const itensFiltrados = computed(() => {
     align-items: center;
     border: 1px solid red;
     background-color: rgba(255, 255, 255, 0.575);
-    width: 400px;
+    width: 100% auto; 
     margin: 20px auto;
     border-radius: 20px;
     padding: 5px 10px;
@@ -116,29 +141,57 @@ const itensFiltrados = computed(() => {
     color: black;
 }
 
-.results{
-    display: flex;
-    flex-wrap:wrap;
-    justify-content: center;
+.results {
+  position: fixed;
+  top: 5em;
+  right: 0;
+  height: 100vh;
+  width: 40%;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+  box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+  overflow-y: auto;
+}
+
+.results.aberto {
+  transform: translateX(0);
 }
 
 .card{
-    width: 300px;
-    background-color: rgba(0, 0, 255, 0.233);
+    width: 90%;
+    background-color: red;
     border: 1px solid white;
+    border-radius: 12px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all .3s ease;
+    display: flex;
+    flex-direction: column;
+    margin: .6em auto;
+}
+
+.card::-webkit-scrollbar{
+  width: 6px;
+}
+
+.card::-webkit-scrollbar-thumb {
+    background: #ccc;
     border-radius: 10px;
-    margin: 10px;
-    padding: 10px 20px;
-    box-shadow: 0 0 0px rgba(0, 0, 0, 0.5);
 }
 
-.filters select{
-    padding: .6em;
-    margin: 1em;
-
+.filters {
+  width: 80%;
+  margin-bottom: 1em;
 }
 
-
-
+.filters select {
+  width: 100%;
+  padding: .6em;
+  margin-bottom: 10px;
+}
 
 </style>

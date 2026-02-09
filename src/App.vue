@@ -2,7 +2,6 @@
   <div>    
     <NavBar/>
     <SearchBar/>
-
   </div>
 </template>
 

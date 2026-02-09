@@ -1,0 +1,13 @@
+:root {
+    /* FONTES */
+    --font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --font-p: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+
+    /* NAV BAR */
+    --nav-background-color: #262626;
+    --nav-color-border: #ccc;
+    --nav-color-a: #ffffff;
+    --nav-color-hover: #7D89A1;
+    --font-size: 1.2em;
+
+}
