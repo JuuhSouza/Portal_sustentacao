@@ -113,6 +113,7 @@ const itensFiltrados = computed(() => {
 .sidebar-header h1{
   font-size: 2em;
   margin-left: 4em;
+  color: var(--color-title);
 }
 
 .btn-close{

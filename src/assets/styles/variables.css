@@ -1,4 +1,7 @@
 :root {
+    /* Cor geral */
+    --background-color-geral: #E9EEF2;
+
     /* FONTES */
     --font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     --font-p: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -12,5 +15,6 @@
     /* Search Bar */
     --background-color-btn: #3698D4;
     --color-btn: white;
-
+    --color-title: black;
+    
 }
