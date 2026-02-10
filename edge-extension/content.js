@@ -63,6 +63,26 @@
           passo: '1o Passo',
           info:
             'Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste quae pariatur veritatis, veniam dolor, suscipit doloremque quibusdam quos, incidunt deserunt commodi.'
+        },
+        {
+          passo: '2o Passo',
+          info:
+            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias maiores accusamus laboriosam nihil, earum placeat quo beatae porro quia.'
+        },
+        {
+          passo: '3o Passo',
+          info:
+            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo aliquam deserunt suscipit, explicabo expedita aliquid magnam dolore.'
+        },
+        {
+          passo: '4o Passo',
+          info:
+            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam pariatur ullam quasi, deleniti adipisci minima recusandae.'
+        },
+        {
+          passo: '5o Passo',
+          info:
+            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit tempore dicta, iure dignissimos blanditiis reprehenderit.'
         }
       ],
       links: [
@@ -88,7 +108,34 @@
     open: true,
     selectedId: null,
     category: 'Todos',
-    search: ''
+    search: '',
+    stepChecks: {}
+  };
+
+  const STORAGE_KEY = 'guideStepChecks';
+
+  const loadStepChecks = async () => {
+    if (!chrome?.storage?.local) {
+      return {};
+    }
+    try {
+      const result = await chrome.storage.local.get(STORAGE_KEY);
+      return result[STORAGE_KEY] || {};
+    } catch (error) {
+      console.warn('Failed to load step checks:', error);
+      return {};
+    }
+  };
+
+  const saveStepChecks = async () => {
+    if (!chrome?.storage?.local) {
+      return;
+    }
+    try {
+      await chrome.storage.local.set({ [STORAGE_KEY]: state.stepChecks });
+    } catch (error) {
+      console.warn('Failed to save step checks:', error);
+    }
   };
 
   const renderList = () => {
@@ -117,31 +164,78 @@
       if (state.selectedId === item.id) {
         const details = document.createElement('div');
         details.className = 'guide-details';
-        details.innerHTML = `
-          <p>${item.descricao}</p>
-          <div>
-            <strong>Guia</strong>
-            <ul>
-              ${item.instrucoes
-                .map(
-                  (step) =>
-                    `<li><strong>${step.passo}</strong><p>${step.info}</p></li>`
-                )
-                .join('')}
-            </ul>
-          </div>
-          <div class="guide-links">
-            <strong>Links</strong>
-            <ul>
-              ${item.links
-                .map(
-                  (link) =>
-                    `<li><a href="${link.url}" target="_blank" rel="noopener noreferrer">${link.label}</a></li>`
-                )
-                .join('')}
-            </ul>
-          </div>
-        `;
+        const desc = document.createElement('p');
+        desc.textContent = item.descricao;
+        details.appendChild(desc);
+
+        const guideBlock = document.createElement('div');
+        const guideTitle = document.createElement('strong');
+        guideTitle.textContent = 'Guia';
+        guideBlock.appendChild(guideTitle);
+
+        const stepsList = document.createElement('ul');
+        stepsList.className = 'guide-steps';
+        if (!state.stepChecks[item.id]) {
+          state.stepChecks[item.id] = {};
+        }
+
+        item.instrucoes.forEach((step, index) => {
+          const li = document.createElement('li');
+          li.className = 'guide-step';
+
+          const checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.className = 'guide-step-check';
+          checkbox.id = `step-${item.id}-${index}`;
+          checkbox.checked = Boolean(state.stepChecks[item.id][index]);
+
+          const label = document.createElement('label');
+          label.className = 'guide-step-label';
+          label.setAttribute('for', checkbox.id);
+          label.innerHTML = `<strong>${step.passo}</strong> ${step.info}`;
+
+          checkbox.addEventListener('click', (event) => {
+            event.stopPropagation();
+          });
+          label.addEventListener('click', (event) => {
+            event.stopPropagation();
+          });
+          checkbox.addEventListener('change', (event) => {
+            state.stepChecks[item.id][index] = event.target.checked;
+            li.classList.toggle('checked', event.target.checked);
+            saveStepChecks();
+          });
+
+          li.classList.toggle('checked', checkbox.checked);
+          li.appendChild(checkbox);
+          li.appendChild(label);
+          stepsList.appendChild(li);
+        });
+
+        guideBlock.appendChild(stepsList);
+        details.appendChild(guideBlock);
+
+        const linksBlock = document.createElement('div');
+        linksBlock.className = 'guide-links';
+        const linksTitle = document.createElement('strong');
+        linksTitle.textContent = 'Links';
+        linksBlock.appendChild(linksTitle);
+
+        const linksList = document.createElement('ul');
+        item.links.forEach((link) => {
+          const li = document.createElement('li');
+          const anchor = document.createElement('a');
+          anchor.href = link.url;
+          anchor.target = '_blank';
+          anchor.rel = 'noopener noreferrer';
+          anchor.textContent = link.label;
+          anchor.addEventListener('click', (event) => event.stopPropagation());
+          li.appendChild(anchor);
+          linksList.appendChild(li);
+        });
+
+        linksBlock.appendChild(linksList);
+        details.appendChild(linksBlock);
         card.appendChild(details);
       }
 
@@ -163,10 +257,12 @@
     rootEl.classList.toggle('closed', !state.open);
   };
 
-  const mount = () => {
+  const mount = async () => {
     if (mounted) {
       return;
     }
+
+    state.stepChecks = await loadStepChecks();
 
     root = document.createElement('div');
     root.id = ROOT_ID;
@@ -306,6 +402,30 @@
         margin: 6px 0;
         font-size: 13px;
       }
+      .guide-steps {
+        list-style: none;
+        padding: 6px 0 0 0;
+        margin: 0;
+        display: grid;
+        gap: 12px;
+      }
+      .guide-step {
+        display: grid;
+        grid-template-columns: 18px 1fr;
+        align-items: start;
+        gap: 8px;
+        font-size: 13px;
+      }
+      .guide-step-check {
+        margin-top: 2px;
+      }
+      .guide-step-label {
+        cursor: pointer;
+      }
+      .guide-step.checked .guide-step-label {
+        text-decoration: line-through;
+        opacity: 0.8;
+      }
       .guide-links a {
         color: #f7a5bb;
         text-decoration: none;
@@ -375,11 +495,11 @@
     mounted = false;
   };
 
-  const toggle = () => {
+  const toggle = async () => {
     if (mounted) {
       unmount();
     } else {
-      mount();
+      await mount();
     }
   };
 

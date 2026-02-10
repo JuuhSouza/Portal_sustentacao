@@ -52,10 +52,25 @@
 
           <div class="Guia">
         <h1> Guia </h1>
-        <ul v-if="item.instrucoes?.length">
-          <li v-for="(instrucoes, index) in item.instrucoes" :key="index"> 
-            {{ instrucoes.passo }}
-            <p>{{ instrucoes.info }}</p>
+        <ul v-if="item.instrucoes?.length" class="lista-passos">
+          <li
+            v-for="(instrucoes, index) in item.instrucoes"
+            :key="index"
+            class="passo-item"
+            :class="{ concluido: obterMarcado(item.id, index) }"
+          >
+            <label class="passo-label" @click.stop>
+              <input
+                type="checkbox"
+                class="passo-check"
+                :checked="obterMarcado(item.id, index)"
+                @change.stop="alternarMarcado(item.id, index, $event.target.checked)"
+              />
+              <div class="passo-texto">
+                <strong>{{ instrucoes.passo }}</strong>
+                <p>{{ instrucoes.info }}</p>
+              </div>
+            </label>
           </li>
         </ul>
       </div>
@@ -132,6 +147,22 @@ const itens = ref([
       {
         passo: "1° Passo",
         info: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste quae pariatur veritatis, veniam dolor, suscipit doloremque quibusdam quos, incidunt deserunt commodi. Dolorum repellat temporibus commodi totam non accusantium tenetur qui"
+      },
+      {
+        passo: "2° Passo",
+        info: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias maiores accusamus laboriosam nihil, earum placeat quo beatae porro quia"
+      },
+      {
+        passo: "3° Passo",
+        info: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo aliquam deserunt suscipit, explicabo expedita aliquid magnam dolore"
+      },
+      {
+        passo: "4° Passo",
+        info: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam pariatur ullam quasi, deleniti adipisci minima recusandae"
+      },
+      {
+        passo: "5° Passo",
+        info: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit tempore dicta, iure dignissimos blanditiis reprehenderit"
       }
     ],
     links: [
@@ -165,10 +196,22 @@ const togglePainel = () => {
 
 /*armazena o item */
 const itemSelecionado = ref(null);
+const passosMarcados = ref({});
 
 /* selecionar */
 const verDetalhes = (item) => {
   itemSelecionado.value = itemSelecionado.value?.id === item.id ? null : item;
+}
+
+const obterMarcado = (itemId, passoIndex) => {
+  return Boolean(passosMarcados.value[itemId]?.[passoIndex])
+}
+
+const alternarMarcado = (itemId, passoIndex, valor) => {
+  if (!passosMarcados.value[itemId]) {
+    passosMarcados.value[itemId] = {}
+  }
+  passosMarcados.value[itemId][passoIndex] = valor
 }
 
 // Estados dos filtros
@@ -351,6 +394,46 @@ select{
   list-style: none;      /* tira bolinhas */
   padding: 0;
   margin: 6px 0;
+}
+
+.lista-passos {
+  list-style: none;
+  padding: 0;
+  margin: 6px 0;
+  display: grid;
+  gap: 6px;
+}
+
+.passo-item {
+  display: grid;
+  align-items: start;
+}
+
+.passo-label {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 8px;
+  cursor: pointer;
+  align-items: start;
+  text-align: left;
+}
+
+.passo-texto {
+  display: grid;
+  gap: 4px;
+}
+
+.passo-texto p {
+  margin: 0;
+}
+
+.passo-check {
+  margin-top: 2px;
+}
+
+.passo-item.concluido .passo-label {
+  text-decoration: line-through;
+  opacity: 0.85;
 }
 
 .lista-links li {

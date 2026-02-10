@@ -11,9 +11,9 @@ chrome.action.onClicked.addListener(async (tab) => {
 
     await chrome.scripting.executeScript({
       target: { tabId: tab.id },
-      func: () => {
+      func: async () => {
         if (window.__guideOverlay && typeof window.__guideOverlay.toggle === 'function') {
-          window.__guideOverlay.toggle();
+          await window.__guideOverlay.toggle();
         }
       }
     });

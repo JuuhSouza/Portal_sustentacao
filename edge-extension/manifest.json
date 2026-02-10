@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "description": "Mostra um painel de guia de chamados sobre qualquer site.",
   "host_permissions": ["<all_urls>"],
-  "permissions": ["activeTab", "scripting"],
+  "permissions": ["activeTab", "scripting", "storage"],
   "background": {
     "service_worker": "background.js"
   },
