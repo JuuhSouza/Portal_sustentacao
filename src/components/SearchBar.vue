@@ -19,9 +19,10 @@
 
     <div class="filters">
       <select v-model="categoriaSelecionada">
-        <option value="Todos">Todas as Categorias</option>
-        <option value="Processos">Processos</option>
-        <option value="Cupom">Cupom</option>
+        <option value="Todos"> Todas as Categorias </option>
+        <option value="Processos"> Processos </option>
+        <option value="Sustentacao"> Sustentação </option>
+        <option value="Cupom"> Cupom </option>
       </select>
 
       <div class="search">
@@ -81,7 +82,7 @@ const itens = ref([
       }
     ]
   },
-  {
+ /*  {
     id: 2,
     nome: 'Guia de Processos',
     categoria: '...',
@@ -92,9 +93,21 @@ const itens = ref([
         label: "Guia de chamados"
       }
     ]
-  },
+  }, */
   {
     id: 3,
+    nome: 'FAQ - Termos Técnicos',
+    categoria: "Sustentacao",
+    descricao: "Guia de termos básicos sobre a parte da Sustentação da empresa Grupo Zaffari. Segue abaixo, uma lista de termos técnicos explicados neste documento:  Sustentação, Contingência, EAC, WPS, Portal GEI, Job, ATM, NF-e, NFS-e, NFC-e, Cupom Fiscal, NSU, RPS",
+    links: [
+      {
+        url: "",
+        label: "Guia de chamados"
+      }
+    ]
+  },
+  {
+    id: 4,
     nome: 'Análise Contingência Pendente',
     categoria: 'Cupom',
     descricao: "Neste link encontra-se um guia de como resolver chamados do tipo contingência/pendente, com um passo-a-passo detalhado e que permite um entendimento facilitado e rápido de todo o contexto. Sendo que, pode ocorrer algumas adversidades durante a resolução deste chamado e em caso de quaisquer dúvidas, consulte o Rilo ou o Rinaldo.",
