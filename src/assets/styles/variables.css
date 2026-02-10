@@ -1,0 +1,32 @@
+:root {
+    /* Cor geral */
+    --background-color-geral: #E9EEF2;
+
+    /* FONTES */
+    --font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --font-p: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+
+    /* NAV BAR */
+    --nav-background-color: white;
+    --nav-color-border: #ccc;
+    --nav-color-a: #182240;
+    --nav-color-hover: #7D89A1;
+
+    /* Search Bar */
+    --background-color-all: #E8EAE4;
+    --background-color-btn: #3698D4;
+    --color-btn: white;
+    --color-title: black;
+
+    /* SELECT */
+    --select-background: white;
+    --select-color: #122E40;
+    --select-border: #3698D4;
+
+    /* card */
+    --background-card: #BA0B32;
+    --color-card: #ffffff;
+    --categoria-color-span: #D0E5F2;
+    --color-link: #f7a5bb;
+
+}
