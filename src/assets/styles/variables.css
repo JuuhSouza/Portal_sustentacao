@@ -13,8 +13,19 @@
     --nav-color-hover: #7D89A1;
 
     /* Search Bar */
+    --background-color-all: #E8EAE4;
     --background-color-btn: #3698D4;
     --color-btn: white;
     --color-title: black;
-    
+
+    /* SELECT */
+    --select-background: white;
+    --select-color: #122E40;
+    --select-border: #3698D4;
+
+    /* card */
+    --background-card: #BA0B32;
+    --color-card: #ffffff;
+    --categoria-color-span: #D0E5F2;
+
 }

@@ -39,14 +39,26 @@
       :key="item.id"
       :class="{'card-ativo' : itemSelecionado?.id === item.id}"
       @click="verDetalhes(item)">
-      <span class="badge"> {{ item.categoria }}</span>
+      <h1> Categoria:  <span class="badge">{{ item.categoria }}</span></h1>
       <h3> {{ item.nome }}</h3>
 
       <!-- DETALHES -->
         <div class="info-extra"
         v-if="itemSelecionado?.id === item.id">
-          <p>Mais detalhes</p>
+          <h1>Mais detalhes :</h1>
           <p>{{ item.descricao }}</p>
+            <ul v-if="item.links?.length">
+              <li v-for="(link, index) in item.links" :key="index">
+                <a :href="link.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                @click.stop
+                class="link-detales">
+              {{ link.label }} link</a>
+              </li>
+            </ul>
+         
+
         </div>
       </div>
     </div>
@@ -57,7 +69,16 @@
 import { ref, computed } from 'vue'
 
 const itens = ref([
-    { id: 1, nome: 'iPhone 15', categoria: 'Eletrônicos', descricao: "alguma coisa" },
+  {
+    id: 1,
+    nome: 'Guia de Processos',
+    categoria: 'Eletrônicos',
+    descricao: "alguma coisa",
+    links: [
+      { url: "https://ciazaffari-my.sharepoint.com/:w:/g/personal/kaillanny_santos_ciazaffari_com_br/IQCnvptunduyQJ6i23cHx3BKATUgpWMv7nOrMi5Qn-evkqE?e=XjhO9J&wdOrigin=TEAMS-WEB.p2p_ns.rwc&wdExp=TEAMS-TREATMENT&wdhostclicktime=1770723259084&web=1"}
+      
+    ]
+  },
     { id: 2, nome: 'samrt', categoria: 'Eletrônicos', descricao: "alguma coisa" },
     { id: 3, nome: 'samsung', categoria: 'Eletrônicos', descricao: "alguma coisa" },
     { id: 4, nome: 'tv', categoria: 'Eletrônicos', descricao: "alguma coisa" },
@@ -146,13 +167,13 @@ const itensFiltrados = computed(() => {
 .search{
     display: flex;
     align-items: center;
-    border: 1px solid red;
+    border: 1px solid #3698D4;
     background-color: rgba(255, 255, 255, 0.575);
     width: 100% auto; 
     margin: 20px auto;
     border-radius: 20px;
     padding: 5px 10px;
-    color: blue;
+    color: red;
 }
 
 .search input{
@@ -161,6 +182,7 @@ const itensFiltrados = computed(() => {
     background-color: transparent;
     width: 100%;
     outline: none;
+    color: black;
 }
 
 .search label{
@@ -168,9 +190,16 @@ const itensFiltrados = computed(() => {
     color: black;
 }
 
+select{
+  background-color: var(--select-background);
+  color: var(--select-color);
+  border-radius: 20px;
+  border: 1px solid var(--select-border);
+}
+
 .results {
   position: fixed;
-  top: 5em;
+  top: 0;
   right: 0;
   height: 100vh;
   width: 40%;
@@ -179,6 +208,7 @@ const itensFiltrados = computed(() => {
   flex-direction: column;
   align-items: stretch;
   transform: translateX(100%);
+  background-color: var(--background-color-all);
   transition: transform 0.3s ease-in-out;
   box-shadow: -5px 0 15px rgba(0,0,0,0.2);
   overflow-y: auto;
@@ -190,15 +220,18 @@ const itensFiltrados = computed(() => {
 
 .card{
     width: 90%;
-    background-color: red;
+    background-color: var(--background-card);
+    color: var(--color-card);
     border: 1px solid white;
     border-radius: 12px;
-    padding: 15px;
+    padding: 11px;
     cursor: pointer;
     transition: all .3s ease;
     display: flex;
     flex-direction: column;
-    margin: .6em auto;
+    margin: .4em auto;
+    align-items: start;
+    gap: 6px;
 }
 
 .card::-webkit-scrollbar{
@@ -209,6 +242,40 @@ const itensFiltrados = computed(() => {
     background: #ccc;
     border-radius: 10px;
 }
+
+.card h1{
+  font-size: 1em;
+}
+
+.card span{
+  font-size: 1em;
+  color: var(--categoria-color-span);
+}
+
+.card h3{
+  font-size: 1.5em;
+  margin-bottom: 4px;
+}
+
+.card p{
+  font-size: 1em;
+}
+
+.badge{
+  font-size:2em ;
+}
+
+.card h3,
+.card p,
+.card span {
+  margin: 0;
+}
+
+
+.info-extra p{
+  align-items: start;
+}
+
 
 
 
