@@ -254,7 +254,7 @@ select{
     color: var(--color-card);
     border: 1px solid white;
     border-radius: 12px;
-    padding: 11px;
+    padding: 25px;
     cursor: pointer;
     transition: all .3s ease;
     display: flex;
@@ -285,10 +285,6 @@ select{
 .card h3{
   font-size: 1.5em;
   margin-bottom: 4px;
-}
-
-.card p{
-  font-size: 1em;
 }
 
 .info-extra p{
