@@ -42,11 +42,24 @@
       <h1> Categoria:  <span class="badge">{{ item.categoria }}</span></h1>
       <h3> {{ item.nome }}</h3>
 
-      <!-- DETALHES -->
+      
+
+      <!-- DETALHES GUIA PDF -->
         <div class="info-extra"
         v-if="itemSelecionado?.id === item.id">
           <h1>Mais detalhes :</h1>
           <p>{{ item.descricao }}</p>
+
+          <div class="Guia">
+        <h1> Guia </h1>
+        <ul v-if="item.instrucoes?.length">
+          <li v-for="(instrucoes, index) in item.instrucoes" :key="index"> 
+            {{ instrucoes.passo }}
+            <p>{{ instrucoes.info }}</p>
+          </li>
+        </ul>
+      </div>
+
           <h1> Guia em PDF : </h1>
             <ul v-if="item.links?.length">
               <li v-for="(link, index) in item.links" :key="index">
@@ -58,7 +71,6 @@
               {{ link.label }}</a>
               </li>
             </ul>
-         
 
         </div>
       </div>
@@ -75,6 +87,35 @@ const itens = ref([
     nome: 'Guia de Processos',
     categoria: 'Processos',
     descricao: "Neste link encontra-se um guia de processos gerais que serão necessários para resolver os chamados, atente-se que cada caso exige diferentes medidas, além de que pode ser que um chamado completamente novo apareça e é sempre importante consultar seus colegas sobre isso. ",
+    instrucoes: [
+      {
+        passo: "1° Passo",
+        info: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste quae pariatur veritatis, veniam dolor, suscipit doloremque quibusdam quos, incidunt deserunt commodi. Dolorum repellat temporibus commodi totam non accusantium tenetur qui"
+      },
+      {
+        passo: "2° Passo",
+        info: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste quae pariatur veritatis, veniam dolor, suscipit doloremque quibusdam quos, incidunt deserunt commodi. Dolorum repellat temporibus commodi totam non accusantium tenetur qui"
+      }
+    ],
+    links: [
+      {
+        url: "https://ciazaffari-my.sharepoint.com/:w:/g/personal/kaillanny_santos_ciazaffari_com_br/IQCnvptunduyQJ6i23cHx3BKATUgpWMv7nOrMi5Qn-evkqE?e=XjhO9J&wdOrigin=TEAMS-WEB.p2p_ns.rwc&wdExp=TEAMS-TREATMENT&wdhostclicktime=1770723259084&web=1",
+        label: "Guia de Processos"
+      }
+    ]
+  },
+
+  {
+    id: 2,
+    nome: 'FAQ - Termos Técnicos',
+    categoria: "Sustentacao",
+    descricao: "Guia de termos básicos sobre a parte da Sustentação da empresa Grupo Zaffari. Segue abaixo, uma lista de termos técnicos explicados neste documento:  Sustentação, Contingência, EAC, WPS, Portal GEI, Job, ATM, NF-e, NFS-e, NFC-e, Cupom Fiscal, NSU, RPS",
+    instrucoes: [
+      {
+        passo: "1° Passo",
+        info: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste quae pariatur veritatis, veniam dolor, suscipit doloremque quibusdam quos, incidunt deserunt commodi. Dolorum repellat temporibus commodi totam non accusantium tenetur qui"
+      }
+    ],
     links: [
       {
         url: "https://ciazaffari-my.sharepoint.com/:w:/g/personal/kaillanny_santos_ciazaffari_com_br/IQCnvptunduyQJ6i23cHx3BKATUgpWMv7nOrMi5Qn-evkqE?e=XjhO9J&wdOrigin=TEAMS-WEB.p2p_ns.rwc&wdExp=TEAMS-TREATMENT&wdhostclicktime=1770723259084&web=1",
@@ -82,7 +123,27 @@ const itens = ref([
       }
     ]
   },
- /*  {
+  {
+    id: 3,
+    nome: 'Análise Contingência Pendente',
+    categoria: 'Cupom',
+    descricao: "Neste link encontra-se um guia de como resolver chamados do tipo contingência/pendente, com um passo-a-passo detalhado e que permite um entendimento facilitado e rápido de todo o contexto. Sendo que, pode ocorrer algumas adversidades durante a resolução deste chamado e em caso de quaisquer dúvidas, consulte o Rilo ou o Rinaldo.",
+    instrucoes: [
+      {
+        passo: "1° Passo",
+        info: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste quae pariatur veritatis, veniam dolor, suscipit doloremque quibusdam quos, incidunt deserunt commodi. Dolorum repellat temporibus commodi totam non accusantium tenetur qui"
+      }
+    ],
+    links: [
+      {
+        url: "https://ciazaffari-my.sharepoint.com/:w:/g/personal/kaillanny_santos_ciazaffari_com_br/IQBBMq8NK1bERKYxS-q2u-XzAdwooG-jQrbImnzD5bIuexY?e=puee0f&wdOrigin=TEAMS-WEB.null_ns.rwc&wdExp=TEAMS-TREATMENT&wdhostclicktime=1770732584479&web=1",
+        label: "Contingência e Pendente"
+      }
+    ]
+  },
+
+
+   /*  {
     id: 2,
     nome: 'Guia de Processos',
     categoria: '...',
@@ -94,30 +155,6 @@ const itens = ref([
       }
     ]
   }, */
-  {
-    id: 3,
-    nome: 'FAQ - Termos Técnicos',
-    categoria: "Sustentacao",
-    descricao: "Guia de termos básicos sobre a parte da Sustentação da empresa Grupo Zaffari. Segue abaixo, uma lista de termos técnicos explicados neste documento:  Sustentação, Contingência, EAC, WPS, Portal GEI, Job, ATM, NF-e, NFS-e, NFC-e, Cupom Fiscal, NSU, RPS",
-    links: [
-      {
-        url: "",
-        label: "Guia de chamados"
-      }
-    ]
-  },
-  {
-    id: 4,
-    nome: 'Análise Contingência Pendente',
-    categoria: 'Cupom',
-    descricao: "Neste link encontra-se um guia de como resolver chamados do tipo contingência/pendente, com um passo-a-passo detalhado e que permite um entendimento facilitado e rápido de todo o contexto. Sendo que, pode ocorrer algumas adversidades durante a resolução deste chamado e em caso de quaisquer dúvidas, consulte o Rilo ou o Rinaldo.",
-    links: [
-      {
-        url: "https://ciazaffari-my.sharepoint.com/:w:/g/personal/kaillanny_santos_ciazaffari_com_br/IQBBMq8NK1bERKYxS-q2u-XzAdwooG-jQrbImnzD5bIuexY?e=puee0f&wdOrigin=TEAMS-WEB.null_ns.rwc&wdExp=TEAMS-TREATMENT&wdhostclicktime=1770726204880&web=1",
-        label: "Análise Contingência Pendente"
-      }
-    ]
-  },
 ])
 
 /* menu-toggle */
