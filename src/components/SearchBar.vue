@@ -20,9 +20,8 @@
     <div class="filters">
       <select v-model="categoriaSelecionada">
         <option value="Todos">Todas as Categorias</option>
-        <option value="Eletrônicos">Eletrônicos</option>
-        <option value="Informática">Informática</option>
-        <option value="Móveis">Móveis</option>
+        <option value="Processos">Processos</option>
+        <option value="Cupom">Cupom</option>
       </select>
 
       <div class="search">
@@ -47,14 +46,15 @@
         v-if="itemSelecionado?.id === item.id">
           <h1>Mais detalhes :</h1>
           <p>{{ item.descricao }}</p>
+          <h1> Guia em PDF : </h1>
             <ul v-if="item.links?.length">
               <li v-for="(link, index) in item.links" :key="index">
                 <a :href="link.url"
                 target="_blank"
                 rel="noopener noreferrer"
                 @click.stop
-                class="link-detales">
-              {{ link.label }} link</a>
+                class="link-detalhes">
+              {{ link.label }}</a>
               </li>
             </ul>
          
@@ -72,22 +72,39 @@ const itens = ref([
   {
     id: 1,
     nome: 'Guia de Processos',
-    categoria: 'Eletrônicos',
-    descricao: "alguma coisa",
+    categoria: 'Processos',
+    descricao: "Neste link encontra-se um guia de processos gerais que serão necessários para resolver os chamados, atente-se que cada caso exige diferentes medidas, além de que pode ser que um chamado completamente novo apareça e é sempre importante consultar seus colegas sobre isso. ",
     links: [
-      { url: "https://ciazaffari-my.sharepoint.com/:w:/g/personal/kaillanny_santos_ciazaffari_com_br/IQCnvptunduyQJ6i23cHx3BKATUgpWMv7nOrMi5Qn-evkqE?e=XjhO9J&wdOrigin=TEAMS-WEB.p2p_ns.rwc&wdExp=TEAMS-TREATMENT&wdhostclicktime=1770723259084&web=1"}
-      
+      {
+        url: "https://ciazaffari-my.sharepoint.com/:w:/g/personal/kaillanny_santos_ciazaffari_com_br/IQCnvptunduyQJ6i23cHx3BKATUgpWMv7nOrMi5Qn-evkqE?e=XjhO9J&wdOrigin=TEAMS-WEB.p2p_ns.rwc&wdExp=TEAMS-TREATMENT&wdhostclicktime=1770723259084&web=1",
+        label: "Guia de chamados"
+      }
     ]
   },
-    { id: 2, nome: 'samrt', categoria: 'Eletrônicos', descricao: "alguma coisa" },
-    { id: 3, nome: 'samsung', categoria: 'Eletrônicos', descricao: "alguma coisa" },
-    { id: 4, nome: 'tv', categoria: 'Eletrônicos', descricao: "alguma coisa" },
-  
-    { id: 5, nome: 'Monitor Dell', categoria: 'Informática', descricao: "alguma coisa" },
-    { id: 6, nome: 'Monitor qualquer', categoria: 'Informática', descricao: "alguma coisa" },
-    { id: 7, nome: 'Monitor pilata', categoria: 'Informática', descricao: "alguma coisa" },
-
-    { id: 8, nome: 'Cadeira Gamer', categoria: 'Móveis', descricao: "alguma coisa" },
+  {
+    id: 2,
+    nome: 'Guia de Processos',
+    categoria: '...',
+    descricao: "alguma coisa",
+    links: [
+      {
+        url: "",
+        label: "Guia de chamados"
+      }
+    ]
+  },
+  {
+    id: 3,
+    nome: 'Análise Contingência Pendente',
+    categoria: 'Cupom',
+    descricao: "Neste link encontra-se um guia de como resolver chamados do tipo contingência/pendente, com um passo-a-passo detalhado e que permite um entendimento facilitado e rápido de todo o contexto. Sendo que, pode ocorrer algumas adversidades durante a resolução deste chamado e em caso de quaisquer dúvidas, consulte o Rilo ou o Rinaldo.",
+    links: [
+      {
+        url: "https://ciazaffari-my.sharepoint.com/:w:/g/personal/kaillanny_santos_ciazaffari_com_br/IQBBMq8NK1bERKYxS-q2u-XzAdwooG-jQrbImnzD5bIuexY?e=puee0f&wdOrigin=TEAMS-WEB.null_ns.rwc&wdExp=TEAMS-TREATMENT&wdhostclicktime=1770726204880&web=1",
+        label: "Análise Contingência Pendente"
+      }
+    ]
+  },
 ])
 
 /* menu-toggle */
@@ -261,6 +278,19 @@ select{
   font-size: 1em;
 }
 
+.info-extra p{
+  font-size: 1em;
+  text-align: start;
+  padding:1em;
+}
+
+.card,
+.info-extra {
+  align-items: flex-start;
+  text-align: left;
+}
+
+
 .badge{
   font-size:2em ;
 }
@@ -271,12 +301,26 @@ select{
   margin: 0;
 }
 
-
-.info-extra p{
-  align-items: start;
+.lista-links {
+  list-style: none;      /* tira bolinhas */
+  padding: 0;
+  margin: 6px 0;
 }
 
+.lista-links li {
+  margin-bottom: 6px;
+}
 
+.link-detalhes {
+  color: var(--color-link);
+  font-size: 0.95em;
+  text-decoration: none;
+  cursor: pointer;
+}
 
+.link-detalhes:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
 
 </style>
