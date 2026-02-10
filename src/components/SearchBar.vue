@@ -1,7 +1,5 @@
 
 <template>
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
     <div class="btn-open" v-show="!painelAberto">
         <button class="btn-toggle" @click="togglePainel">
             Guia de chamados
@@ -26,10 +24,12 @@
       </select>
 
       <div class="search">
-         <label for=""><i class="fa-solid fa-magnifying-glass"></i></label>
+         <label for="search-input"><i class="fa-solid fa-magnifying-glass"></i></label>
         <input 
+          id="search-input"
             v-model="busca"
             :placeholder="categoriaSelecionada === 'Todos' ? 'Pesquisa geral' : 'Pesquisar em ' + categoriaSelecionada"
+          aria-label="Pesquisar no guia"
         />
         </div>
     </div>
@@ -195,7 +195,7 @@ const itensFiltrados = computed(() => {
 .sidebar-header{
   display: flex;
   align-items: center;
-  justify-content: baseline;
+  justify-content: flex-start;
 }
 
 .sidebar-header h1{
@@ -236,11 +236,11 @@ const itensFiltrados = computed(() => {
     align-items: center;
     border: 1px solid #3698D4;
     background-color: rgba(255, 255, 255, 0.575);
-    width: 100% auto; 
+  width: 100%;
     margin: 20px auto;
     border-radius: 20px;
     padding: 5px 10px;
-    color: red;
+  color: #122e40;
 }
 
 .search input{
