@@ -11,20 +11,12 @@
       categoria: 'Processos',
       descricao:
         'Neste link encontra-se um guia de processos gerais que serao necessarios para resolver os chamados. Cada caso exige medidas diferentes e novos chamados podem aparecer. Consulte seus colegas quando necessario.',
-      instrucoes: [
-        {
-          passo: '',
-          info:
-            ''
-        },
-      ],
+      instrucoes: [],
       video: "",
-      links: [
-        {
-          url: "",
-          label: ""
-        }
-      ],
+      links: [{
+        url: 'https://ciazaffari-my.sharepoint.com/:w:/g/personal/kaillanny_santos_ciazaffari_com_br/IQCnvptunduyQJ6i23cHx3BKATUgpWMv7nOrMi5Qn-evkqE?e=XjhO9J&wdOrigin=TEAMS-WEB.null_ns.rwc&wdExp=TEAMS-TREATMENT&wdhostclicktime=1770816954843&web=1',
+        label: 'FAQ — Guia de Processos'
+      }],
     },
     {
       id: 2,
@@ -32,21 +24,9 @@
       categoria: 'Sustentacao',
       descricao:
         'Guia de termos basicos sobre a parte de Sustentacao. Termos tecnicos explicados: Sustentacao, Contingencia, EAC, WPS, Portal GEI, Job, ATM, NF-e, NFS-e, NFC-e, Cupom Fiscal, NSU, RPS.',
-      instrucoes: [
-        {
-          passo: '1° -',
-          info:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste quae pariatur veritatis, veniam dolor, suscipit doloremque quibusdam quos, incidunt deserunt commodi.'
-        }
-      ],
-      video: "https://www.w3schools.com/html/mov_bbb.mp4",
-      links: [
-        {
-          url:
-            'https://ciazaffari-my.sharepoint.com/:w:/g/personal/marcos_oliveira_1_ciazaffari_com_br/IQAYD63xMrtmTozwBkeNTS5BAVhMUBNMNIXctzADw8CPRa0?e=o9rryQ&wdOrigin=TEAMS-WEB.null_ns.rwc&wdExp=TEAMS-TREATMENT&wdhostclicktime=1770808527053&web=1',
-          label: 'FAQ - Termos Tecnicos'
-        }
-      ]
+      instrucoes: [],
+      video: "",
+      links: []
     },
     {
       id: 3,
@@ -116,7 +96,7 @@
       nome: 'Sem Registro de Cupom (Cupom Faltante)',
       categoria: 'Cupom',
       descricao:
-        'Guia de termos basicos sobre a parte de Sustentacao. Termos tecnicos explicados: Sustentacao, Contingencia, EAC, WPS, Portal GEI, Job, ATM, NF-e, NFS-e, NFC-e, Cupom Fiscal, NSU, RPS.',
+        'Guia para a resolução de chamados com um ou mais cupons faltantes, os consultando nos servidores do Grupo Zaffari em busca de seu registro.',
       instrucoes: [
         {
           passo: '1° -',
@@ -215,102 +195,92 @@
       if (state.selectedId === item.id) {
         const details = document.createElement('div');
         details.className = 'guide-details';
+
+        /* DESCRIÇÃO */
         const desc = document.createElement('p');
         desc.textContent = item.descricao;
         details.appendChild(desc);
 
-        const guideBlock = document.createElement('div');
-        const guideTitle = document.createElement('strong');
-        guideTitle.textContent = 'Guia';
-        guideBlock.appendChild(guideTitle);
+        // CHECKLIST- SÓ RENDERIZA SE TIVER CONTEÚDO
+        const validSteps = item.instrucoes.filter(s => s.passo.trim() !== '' || s.info.trim() !== '');
+        if (validSteps.length > 0) {
+          const guideBlock = document.createElement('div');
+          guideBlock.innerHTML = `<strong>Guia</strong>`;
+          const stepsList = document.createElement('ul');
+          stepsList.className = 'guide-steps';
 
-        const stepsList = document.createElement('ul');
-        stepsList.className = 'guide-steps';
-        if (!state.stepChecks[item.id]) {
-          state.stepChecks[item.id] = {};
+          if (!state.stepChecks[item.id]) {
+            state.stepChecks[item.id] = {};
+          }
+
+          validSteps.forEach((step, index) => {
+            const li = document.createElement('li');
+            li.className = `guide-step ${state.stepChecks[item.id][index] ? 'checked' : ''}`;
+            const checkId = `step-${item.id}-${index}`;
+
+            li.innerHTML = `
+              <input type="checkbox" class="guide-step-check" id="${checkId}" ${state.stepChecks[item.id][index] ? 'checked' : ''}>
+              <label class="guide-step-label" for="${checkId}"><strong>${step.passo}</strong> ${step.info}</label>
+            `;
+
+            li.addEventListener('click', (e) => e.stopPropagation());
+
+            const cb = li.querySelector('input');
+            // Impede que o clique no checkbox chegue até o card
+            cb.addEventListener('click', (e) => e.stopPropagation());
+
+            cb.addEventListener('change', (e) => {
+              state.stepChecks[item.id][index] = e.target.checked;
+              li.classList.toggle('checked', e.target.checked);
+              saveStepChecks();
+            });
+
+            stepsList.appendChild(li);
+          });
+          guideBlock.appendChild(stepsList);
+          details.appendChild(guideBlock);
         }
 
-        item.instrucoes.forEach((step, index) => {
-          const li = document.createElement('li');
-          li.className = 'guide-step';
-
-          const checkbox = document.createElement('input');
-          checkbox.type = 'checkbox';
-          checkbox.className = 'guide-step-check';
-          checkbox.id = `step-${item.id}-${index}`;
-          checkbox.checked = Boolean(state.stepChecks[item.id][index]);
-
-          const label = document.createElement('label');
-          label.className = 'guide-step-label';
-          label.setAttribute('for', checkbox.id);
-          label.innerHTML = `<strong>${step.passo}</strong> ${step.info}`;
-
-          checkbox.addEventListener('click', (event) => {
-            event.stopPropagation();
-          });
-          label.addEventListener('click', (event) => {
-            event.stopPropagation();
-          });
-          checkbox.addEventListener('change', (event) => {
-            state.stepChecks[item.id][index] = event.target.checked;
-            li.classList.toggle('checked', event.target.checked);
-            saveStepChecks();
-          });
-
-          li.classList.toggle('checked', checkbox.checked);
-          li.appendChild(checkbox);
-          li.appendChild(label);
-          stepsList.appendChild(li);
-        });
-
-        guideBlock.appendChild(stepsList);
-        details.appendChild(guideBlock);
-
-        // bloco para o Vídeo ---
-        if (item.video) {
+        // VIDEO - SÓ RENDERIZA SE TIVER URL
+        if (item.video && item.video.trim() !== "") {
           const videoBlock = document.createElement('div');
           videoBlock.className = 'guide-video';
           videoBlock.style.marginTop = '10px';
-
-          const videoTitle = document.createElement('strong');
-          videoTitle.textContent = 'Vídeo Auxiliar';
-          videoBlock.appendChild(videoTitle);
+          videoBlock.innerHTML = `<strong>Vídeo Auxiliar</strong>`;
 
           const videoEl = document.createElement('video');
           videoEl.src = item.video;
           videoEl.controls = true;
-          videoEl.style.width = '100%';
-          videoEl.style.borderRadius = '8px';
-          videoEl.style.marginTop = '5px';
-
-          // Impede que o clique no vídeo feche o card
-          videoEl.addEventListener('click', (event) => event.stopPropagation());
+          videoEl.style.cssText = 'width:100%; border-radius:8px; margin-top:5px;';
+          videoEl.addEventListener('click', (e) => e.stopPropagation());
 
           videoBlock.appendChild(videoEl);
           details.appendChild(videoBlock);
         }
 
-        const linksBlock = document.createElement('div');
-        linksBlock.className = 'guide-links';
-        const linksTitle = document.createElement('strong');
-        linksTitle.textContent = 'Links';
-        linksBlock.appendChild(linksTitle);
+        // Links - SÓ RENDERIZA SE TIVER LINKS VÁLIDOS
+        const validLinks = item.links.filter(l => l.url && l.url.trim() !== "");
+        if (validLinks.length > 0) {
+          const linksBlock = document.createElement('div');
+          linksBlock.className = 'guide-links';
+          linksBlock.style.marginTop = '10px';
+          linksBlock.innerHTML = `<strong>Links</strong>`;
+          const linksList = document.createElement('ul');
 
-        const linksList = document.createElement('ul');
-        item.links.forEach((link) => {
-          const li = document.createElement('li');
-          const anchor = document.createElement('a');
-          anchor.href = link.url;
-          anchor.target = '_blank';
-          anchor.rel = 'noopener noreferrer';
-          anchor.textContent = link.label;
-          anchor.addEventListener('click', (event) => event.stopPropagation());
-          li.appendChild(anchor);
-          linksList.appendChild(li);
-        });
+          validLinks.forEach((link) => {
+            const li = document.createElement('li');
+            const anchor = document.createElement('a');
+            anchor.href = link.url;
+            anchor.target = '_blank';
+            anchor.textContent = link.label || 'Acessar Link';
+            anchor.addEventListener('click', (e) => e.stopPropagation());
+            li.appendChild(anchor);
+            linksList.appendChild(li);
+          });
+          linksBlock.appendChild(linksList);
+          details.appendChild(linksBlock);
+        }
 
-        linksBlock.appendChild(linksList);
-        details.appendChild(linksBlock);
         card.appendChild(details);
       }
 
@@ -318,20 +288,17 @@
         state.selectedId = state.selectedId === item.id ? null : item.id;
         renderList();
       });
-
       listEl.appendChild(card);
     });
   };
 
   const setOpen = (value) => {
     state.open = value;
-    if (!rootEl) {
-      return;
+    if (rootEl) {
+      rootEl.classList.toggle('open', state.open);
+      rootEl.classList.toggle('closed', !state.open);
     }
-    rootEl.classList.toggle('open', state.open);
-    rootEl.classList.toggle('closed', !state.open);
   };
-
   const mount = async () => {
     if (mounted) {
       return;
